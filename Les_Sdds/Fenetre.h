@@ -9,19 +9,15 @@
 #define Type_ 0
 #define Resizable_ 0
 #define ColorBg_ NULL
+#define BackGround_ NULL
                                                 /*
                                                     Les Position Par Defauts
                                                 */
-#define GTK_WIN_POS_NONE                
-#define GTK_WIN_POS_CENTER              En_Centre_De_Ecran
-#define GTK_WIN_POS_MOUSE               Cursor_En_Centre_De_Window
-#define GTK_WIN_POS_CENTER_ALWAYS       Tjr_En_Centre
-#define GTK_WIN_POS_CENTER_ON_PARENT    En_Centre_De_Son_Parent
-
-
-
-
-
+#define Aucune_Pos              GTK_WIN_POS_NONE
+#define Pos_Centre              GTK_WIN_POS_CENTER
+#define Pos_du_curseur          GTK_WIN_POS_MOUSE
+#define Pos_Tjrs_centrer        GTK_WIN_POS_CENTER_ALWAYS
+#define Pos_Centrer_parent      GTK_WIN_POS_CENTER_ON_PARENT    
 
 typedef struct
 {
@@ -46,6 +42,6 @@ typedef struct
 
     gchar *Id;                                  // Unique identifier for the window
     gchar *BackGround;                          // Image De Back Ground (PATH)
-    gfloat Transparant;
+    gboolean Headbar;
 
 }Fenetre;
