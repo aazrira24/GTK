@@ -2,7 +2,7 @@
 #include "Position.h"
 
                                                 /*
-                                                    Les Cnstants
+                                                    Les Valeurs Des Chapms Par Defauts
                                                 */
 #define Title_ "Hello Gtk"
 #define Icon_ NULL
