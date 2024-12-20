@@ -10,6 +10,7 @@
 #define Resizable_ 0
 #define ColorBg_ NULL
 #define BackGround_ NULL
+#define HeadBar_ 0
                                                 /*
                                                     Les Position Par Defauts
                                                 */
