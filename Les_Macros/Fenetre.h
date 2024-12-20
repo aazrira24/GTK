@@ -98,164 +98,167 @@ void Fenetre_Set_BackGround_Color(Fenetre *F_Ptr,char *ColorBg)
 
 }
 
+
 /*
-    La Fonction cree_fenetre Pour Creation Dynamique D'une Fenetre.
+    La Fonction Definir_Taille Pour donner une taille a la fentre
     Les Entres : 
-                    Rien 
+                    Pointeur De Type Fenetre, cordonnee x , cordonne y 
     Les Sorties :
-                    Pointeur De Type Fenetre
+                    Rien
 */
-
-Fenetre* cree_fenetre()
+void Definir_Taille(Fenetre *f, gint x, gint y) 
 {
-    Fenetre* Fentr = (Fenetre*) malloc(sizeof(Fenetre));
-
-    if(!Fentr)
-    {
-        printf("Erreur dans la fenetre");
-        exit(-1);
-    }
-    /*
-        Peux Avoir Les Valeurs Par Defauts Ici.
-    */
-    // fen->wind=gtk_window_new(GTK_WINDOW_TOPLEVEL);
-    return ( Fenetre* )Fentr;
+    f->Size.X = x;
+    f->Size.Y = y;
+    gtk_window_set_default_size(GTK_WINDOW(f->Wind), x, y);//donner a la fentre une taille de x et y
 }
 
 /*
-    La Fonction set_window_type Pour Donnes Une Type  Fenetre Soit TOPLEVEL ( Avec Les Buttons Close.. ), Soit POPUP ( Sans Les Buttons )
-    Les Entres : 
-                    Rien 
+    La Fonction Recuperer_Taille pour récupérer la taille actuelle de la fenêtre.
+    Les Entrées : 
+                    Pointeur de type Fenetre
     Les Sorties :
-                    Pointeur De Type Fenetre
+                    Largeur et hauteur via une variable Taille .
 */
-
-void set_window_type(Fenetre* fen,gboolean type)
+Taille Recuperer_Taille(Fenetre *f) 
 {
-    if(!fen)
+   Taille T;
+    if(!f)
     {
-        printf("Erreur dans la fenetre");
-        exit(-1);
+    printf("la fentre n'exsite pas");
+    exit(-1);
     }
-
-    if(type)    ( fen->Wind = gtk_window_new(GTK_WINDOW_TOPLEVEL) );
-
-    else        ( fen->Wind = gtk_window_new(GTK_WINDOW_POPUP) ); 
-
-    fen->Type=type;
-
+    T.X = f->Size.X;
+    T.Y = f->Size.Y;
 }
 
+/********rezizable*******/
 /*
-    Les Fonction Pour Affecter Et Recuperer La Position Et La Taille 
-*/ 
-
-void definir_taille(Fenetre *f, gint largeur, gint hauteur) 
+    La Fonction Definir_Redimensionnable pour définir si une fenêtre peut être redimensionnée ou non.
+    Les Entrées :
+                    Pointeur de type Fenetre, valeur booléenne (TRUE ou FALSE).
+    Les Sorties :
+                    Rien.
+*/
+void Definir_Redimensionnable(Fenetre *f, gboolean resizable) 
 {
-    if(!f)
+     if(!f)
     {
-        printf("Erreur dans la fenetre");
-        exit(-1);
+    printf("la fentre n'exsite pas");
+    exit(-1);
     }
-
-    f->Size.X = largeur;
-    f->Size.Y = hauteur;
-
-    gtk_window_set_default_size(GTK_WINDOW(f->Wind), largeur, hauteur);
-
+    f->Resizable = resizable;
+    gtk_window_set_resizable(GTK_WINDOW(f->Wind), resizable); // donner ala fenetre cette propriétés
 }
 
-void recuperer_taille(Fenetre *f, gint *largeur, gint *hauteur) 
+
+/******pos*********/
+/*
+    La Fonction Definir_Position pour positionner la fenêtre aux coordonnées données.
+    Les Entrées :
+                    Pointeur de type Fenetre, coordonnées x et y.
+    Les Sorties :
+                    Rien.
+*/
+void Definir_Position(Fenetre *f, gint x, gint y) 
 {
-    if(!f)
-    {
-        printf("Erreur dans la fenetre");
-        exit(-1);
-    }
-
-    *largeur = f->Size.X;
-    *hauteur = f->Size.Y;
-}
-
-void definir_position(Fenetre *f, gint x, gint y) 
-{
-    if(!f)
-    {
-        printf("Erreur dans la fenetre");
-        exit(-1);
-    }
-
+     if(!f)
+      {
+      printf("la fentre n'exsite pas");
+      exit(-1);
+      }
     f->Position.X = x;
     f->Position.Y = y;
     gtk_window_move(GTK_WINDOW(f->Wind), x, y);
 }
 
-Position recuperer_position(Fenetre *f) 
+/*
+    La Fonction Recuperer_Position pour récupérer la position actuelle de la fenêtre.
+    Les Entrées :
+                    Pointeur de type Fenetre.
+    Les Sorties :
+                    Une structure Position contenant les coordonnées x et y.
+*/
+Position Recuperer_Position(Fenetre *f) 
 {
-    if(!f)
-    {
-        printf("Erreur dans la fenetre");
-        exit(-1);
-    }
-
-    Position pos;
-
+     Position pos;
+     if(!f)
+       {
+         printf("la fentre n'exsite pas");
+         exit(-1);
+       }
     gtk_window_get_position(GTK_WINDOW(f->Wind), &pos.X, &pos.Y);
-    
-    return ( Position ) pos;
+    return pos;
 }
 
 /*
-    Fonction Si La Fenetre Est Resizable ( Redimensionnable ) Ou Non
+    La Fonction Definir_Position_Connu pour définir la position connue d'une fenêtre.
+    Les Entrées :
+                    Pointeur de type Fenetre, valeur entière correspondant à la position.
+    Les Sorties :
+                    Rien.
 */
-
-void definir_redimensionnable(Fenetre *f, gboolean resizable) 
+void Definir_Position_Connu(Fenetre *f, gint position) 
 {
     if(!f)
-    {
-        printf("Erreur dans la fenetre");
+       {
+        printf("la fentre n'exsite pas");
         exit(-1);
-    }
-
-    f->Resizable = resizable;
-
-    gtk_window_set_resizable(GTK_WINDOW(f->Wind), resizable);
-
-}
-
-
-
-void definir_position_par_def(Fenetre *f, gint position) 
-{
-    if(!f)
-    {
-        printf("Erreur dans la fenetre");
-        exit(-1);
-    }
-
-    f->PositionParDf = position;
-
-    switch (position) 
-    {
+       }
+    switch (position) {
         case 0:
-            gtk_window_set_position(GTK_WINDOW(f->Wind), GTK_WIN_POS_NONE);
+            gtk_window_set_position(GTK_WINDOW(f->Wind), Aucune_Pos);
             break;
         case 1:
-            gtk_window_set_position(GTK_WINDOW(f->Wind), GTK_WIN_POS_CENTER);
+            gtk_window_set_position(GTK_WINDOW(f->Wind), Pos_Centre);
             break;
         case 2:
-            gtk_window_set_position(GTK_WINDOW(f->Wind), GTK_WIN_POS_MOUSE);
+            gtk_window_set_position(GTK_WINDOW(f->Wind), Pos_du_curseur);
             break;
         case 3:
-            gtk_window_set_position(GTK_WINDOW(f->Wind), GTK_WIN_POS_CENTER_ALWAYS);
+            gtk_window_set_position(GTK_WINDOW(f->Wind), Pos_Tjrs_centrer);
             break;
         case 4:
-            gtk_window_set_position(GTK_WINDOW(f->Wind), GTK_WIN_POS_CENTER_ON_PARENT);
+            gtk_window_set_position(GTK_WINDOW(f->Wind), Pos_Centrer_parent);
             break;
         default:
-            printf("\n Erreur Position N\'est Pas Indique.");
+            // Gestion de l'erreur ou position par défaut si nécessaire
             break;
     }
+}
+
+/*
+    La Fonction mettre_en_plein_ecran pour mettre la fenêtre en plein écran.
+    Les Entrées :
+                    Pointeur de type Fenetre.
+    Les Sorties :
+                    Rien.
+*/
+void Mettre_En_Plein_Ecran(Fenetre *f) 
+{
+    if(!f)
+      {
+       printf("la fentre n'exsite pas");
+       exit(-1);
+      }
+    gtk_window_fullscreen(GTK_WINDOW(f->Wind));
+}
+
+/*
+    La Fonction quitter_plein_ecran pour quitter le mode plein écran.
+    Les Entrées :
+                    Pointeur de type Fenetre.
+    Les Sorties :
+                    Rien.
+*/
+void Quitter_Plein_Ecran(Fenetre *f) 
+{
+    if(!f)
+     {
+      printf("la fentre n'exsite pas");
+      exit(-1);
+     }
+    gtk_window_unfullscreen(GTK_WINDOW(f->Wind));
 }
 
 /*
@@ -281,7 +284,7 @@ void Main_Boucle()
     gtk_main();
 }
 
-void on_button_quit_clicked(GtkWidget *widget, gpointer data) 
+void Quit_Main(GtkWidget *widget, gpointer data) 
 {
     /*
         Quitter le programme
@@ -295,4 +298,71 @@ void Gtk_Signal_Connect(GtkWidget *,gchar *Signale,gchar *Fnct,)
 }
 
 */
+
+Fenetre* Cree_Fenetre()
+{
+    Fenetre* fen=(Fenetre*)malloc(sizeof(Fenetre));
+    if(!fen)
+    {
+        printf("Erreur dans la fenetre");
+        exit(-1);
+    }
+    if(!fen->Wind)
+    {
+        printf("Erruer dans la fenetre");
+        exit(-1);
+    }
+    return (Fenetre*)fen;
+}
+
+
+void Afficher_Fenetre(Fenetre* fen)
+{
+    if(!fen)
+    {
+        printf("Erreur dans la fenetre");
+        exit(-1);
+    }
+    if(!fen->Wind)
+    {
+        printf("Erruer dans la fenetre");
+        exit(-1);
+    }
+    gtk_widget_show_all(fen->Wind);
+}
+
+
+
+
+void Set_Window_Type(Fenetre* fen,gboolean type)
+{
+    if(!fen)   exit(-1);
+    if(!fen->Wind)
+    {
+        printf("Erruer dans la fenetre");
+        exit(-1);
+    }
+    if(type)    (fen->Wind=gtk_window_new(GTK_WINDOW_TOPLEVEL));
+    else        (fen->Wind=gtk_window_new(GTK_WINDOW_POPUP));
+    fen->Type=type;
+}
+
+
+void Set_Window_Decorate(Fenetre *fen,gboolean Headbar)
+{
+    if(!fen)
+    {
+        printf("Erreur dans l'adresse fenetre");
+        exit(-1);
+    }
+    if(!fen->Wind)
+    {
+        printf("Erruer dans la fenetre");
+        exit(-1);
+    }
+    // Applique la d�coration en fonction du param�tre decorate
+    gtk_window_set_decorated(GTK_WINDOW(fen->Wind), Headbar);
+    fen->Headbar = Headbar;
+}
+
 
