@@ -121,3 +121,66 @@ ComboBox *Gtk_New_ComboBox(
 
     return (ComboBox *) Ptr;
 }
+
+
+
+Option *Cree_Option_ComboBox(gchar *Title,const short int PositionDeOption)
+{
+
+    Option *Ptr = (Option *) Alloue(Option);
+
+    if(!Ptr)
+    {
+        printf("\n\n Macro : Cree_Option_ComboBox | Erreur D\'Allocation Dynamique ");
+        exit(0);
+    }    
+
+    int Cntr = 0;
+    for ( ; Cntr < Max ; Ptr->Title_Option[Cntr++] = '\0');
+
+    Cntr = 0;
+
+    for( ; Cntr < Max && Title[Cntr] != '\0' ; Ptr->Title_Option[Cntr] = Title[Cntr++]);
+
+    Ptr->PositionDansComboBox = PositionDeOption;
+
+    Ptr->Svt = NULL;
+
+    return (Option *) Ptr;
+
+}
+
+Option *Inserer_Option_Dans_List(Option *Ptr_List,Option *New_Option)
+{
+
+                                /*
+                                    Inserer A La Fin
+                                */
+
+    if(!New_Option) return (Option *) Ptr_List;
+    if(!Ptr_List) return (Option *) Cree_Option_ComboBox(New_Option->Title_Option,New_Option->PositionDansComboBox);
+    Ptr_List ->Svt = Inserer_Option_Dans_List(Ptr_List->Svt,New_Option);
+    return (Option *) Ptr_List;
+}
+
+int NbreElmentListOption(Option *Ptr_List)
+{
+    if(!Ptr_List) return (int) 0;
+    return (int) ( 1 + NbreElmentListOption(Ptr_List->Svt) );
+}
+
+void Inserer_List_Option_Dans_ComboBox(ComboBox *Ptr_ComboBox,Option *Ptr_List)
+{
+    if(!Ptr_ComboBox || !Ptr_List)
+    {
+        printf("\n\n Macro : Inserer_List_Option_Dans_ComboBox | Erreur D\'Adressage ");
+        exit(0);
+    }    
+
+    while (Ptr_List)
+    {
+        Gtk_ComboBox_Ajouter_Option(Ptr_ComboBox,Ptr_List->Title_Option);
+        Ptr_List = Ptr_List->Svt;
+    }
+}
+
