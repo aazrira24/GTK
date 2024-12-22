@@ -1,4 +1,4 @@
-#include "C:\Users\LENOVO\Desktop\GTK\GTK\Les Sdds\Fenetre.h"
+#include "C:\Users\LENOVO\Desktop\GTK\GTK\Les Macros\HeadBar.h"
 
                                             
 /*
@@ -8,6 +8,7 @@
     Les Sorties :
                     Rien
 */
+
 void Fenetre_Set_BackGround_Image(Fenetre *F_Ptr,gchar *BackGroundPath)                
 {
     /*
@@ -106,7 +107,7 @@ void Fenetre_Set_BackGround_Color(Fenetre *F_Ptr,char *ColorBg)
     Les Sorties :
                     Rien
 */
-void Definir_Taille(Fenetre *f, gint x, gint y) 
+void Fenetre_Definir_Taille(Fenetre *f, gint x, gint y) 
 {
     f->Size.X = x;
     f->Size.Y = y;
@@ -120,7 +121,7 @@ void Definir_Taille(Fenetre *f, gint x, gint y)
     Les Sorties :
                     Largeur et hauteur via une variable Taille .
 */
-Taille Recuperer_Taille(Fenetre *f) 
+Taille Fenetre_Recuperer_Taille(Fenetre *f) 
 {
    Taille T;
     if(!f)
@@ -132,7 +133,7 @@ Taille Recuperer_Taille(Fenetre *f)
     T.Y = f->Size.Y;
 }
 
-/********rezizable*******/
+
 /*
     La Fonction Definir_Redimensionnable pour définir si une fenêtre peut être redimensionnée ou non.
     Les Entrées :
@@ -140,7 +141,8 @@ Taille Recuperer_Taille(Fenetre *f)
     Les Sorties :
                     Rien.
 */
-void Definir_Redimensionnable(Fenetre *f, gboolean resizable) 
+
+void Fenetre_Definir_Redimensionnable(Fenetre *f, gboolean resizable) 
 {
      if(!f)
     {
@@ -152,7 +154,7 @@ void Definir_Redimensionnable(Fenetre *f, gboolean resizable)
 }
 
 
-/******pos*********/
+
 /*
     La Fonction Definir_Position pour positionner la fenêtre aux coordonnées données.
     Les Entrées :
@@ -160,7 +162,7 @@ void Definir_Redimensionnable(Fenetre *f, gboolean resizable)
     Les Sorties :
                     Rien.
 */
-void Definir_Position(Fenetre *f, gint x, gint y) 
+void Fenetre_Definir_Position(Fenetre *f, gint x, gint y) 
 {
      if(!f)
       {
@@ -179,7 +181,7 @@ void Definir_Position(Fenetre *f, gint x, gint y)
     Les Sorties :
                     Une structure Position contenant les coordonnées x et y.
 */
-Position Recuperer_Position(Fenetre *f) 
+Position Fenetre_Recuperer_Position(Fenetre *f) 
 {
      Position pos;
      if(!f)
@@ -198,14 +200,16 @@ Position Recuperer_Position(Fenetre *f)
     Les Sorties :
                     Rien.
 */
-void Definir_Position_Connu(Fenetre *f, gint position) 
+
+void Fenetre_Definir_Position_Connu(Fenetre *f, gint position) 
 {
     if(!f)
        {
         printf("la fentre n'exsite pas");
         exit(-1);
        }
-    switch (position) {
+    switch (position) 
+    {
         case 0:
             gtk_window_set_position(GTK_WINDOW(f->Wind), Aucune_Pos);
             break;
@@ -222,9 +226,11 @@ void Definir_Position_Connu(Fenetre *f, gint position)
             gtk_window_set_position(GTK_WINDOW(f->Wind), Pos_Centrer_parent);
             break;
         default:
-            // Gestion de l'erreur ou position par défaut si nécessaire
+            printf("\n Erreur Dans Position Par Defaut.\n");
             break;
     }
+
+    f->PositionParDf = position;
 }
 
 /*
@@ -234,7 +240,8 @@ void Definir_Position_Connu(Fenetre *f, gint position)
     Les Sorties :
                     Rien.
 */
-void Mettre_En_Plein_Ecran(Fenetre *f) 
+
+void Fenetre_Mettre_En_Plein_Ecran(Fenetre *f) 
 {
     if(!f)
       {
@@ -251,7 +258,7 @@ void Mettre_En_Plein_Ecran(Fenetre *f)
     Les Sorties :
                     Rien.
 */
-void Quitter_Plein_Ecran(Fenetre *f) 
+void Fenetre_Quitter_Plein_Ecran(Fenetre *f) 
 {
     if(!f)
      {
@@ -291,13 +298,6 @@ void Quit_Main(GtkWidget *widget, gpointer data)
     */
     gtk_main_quit();
 }
-/*
-void Gtk_Signal_Connect(GtkWidget *,gchar *Signale,gchar *Fnct,)
-{
-    g_signal_connect(Ptr->Wind, "destroy", G_CALLBACK(gtk_main_quit), NULL);
-}
-
-*/
 
 Fenetre* Cree_Fenetre()
 {
@@ -332,23 +332,24 @@ void Afficher_Fenetre(Fenetre* fen)
 }
 
 
-
-
-void Set_Window_Type(Fenetre* fen,gboolean type)
+void Fenetre_Set_Type(Fenetre* Fenetre,GtkWindowType Type = Normal)
 {
-    if(!fen)   exit(-1);
-    if(!fen->Wind)
+    if(!Fenetre)   exit(-1);
+    if(!Fenetre->Wind)
     {
-        printf("Erruer dans la fenetre");
+        printf("Erruer Dans La Fenetre");
         exit(-1);
     }
-    if(type)    (fen->Wind=gtk_window_new(GTK_WINDOW_TOPLEVEL));
-    else        (fen->Wind=gtk_window_new(GTK_WINDOW_POPUP));
-    fen->Type=type;
+    
+    if( Type == Normal )    (   Fenetre->Wind=gtk_window_new(Type)  );
+
+    else        (   Fenetre->Wind=gtk_window_new(Type) );
+
+    Fenetre->Type = Type;
 }
 
 
-void Set_Window_Decorate(Fenetre *fen,gboolean Headbar)
+void Fenetre_Set_Decorate(Fenetre *fen,gboolean Headbar)
 {
     if(!fen)
     {
@@ -360,9 +361,121 @@ void Set_Window_Decorate(Fenetre *fen,gboolean Headbar)
         printf("Erruer dans la fenetre");
         exit(-1);
     }
-    // Applique la d�coration en fonction du param�tre decorate
+    // Applique la decoration en fonction du parametre decorate
     gtk_window_set_decorated(GTK_WINDOW(fen->Wind), Headbar);
+
     fen->Headbar = Headbar;
 }
+
+void Fenetre_Set_Icon(Fenetre *fen, const gchar *new_icon,gboolean is_theme)
+{
+   
+    if (!fen || !new_icon) 
+    {
+        printf("set_fenetre_icon: Paramètres invalides.");
+        exit(-1);
+    }
+
+    // Applique la nouvelle icône en fonction du type (thématique ou fichier)
+
+    if (is_theme)   // Définit l'icône thématique pour la fenêtre   
+                    gtk_window_set_icon_name(GTK_WINDOW(fen->Wind), new_icon);
+    else
+    {
+        // Charge l'image depuis le fichier indiqué dans Icon
+    	GError *error = NULL;
+    	GdkPixbuf *icon = gdk_pixbuf_new_from_file(new_icon, &error);
+    	if (!icon) 
+        {
+        	printf("Erreur lors du chargement de l'icône (%s) : %s",new_icon,error->message);
+        	g_error_free(error);
+        	exit(-1);
+    	}
+
+        // Définit l'icône de la fenêtre
+        gtk_window_set_icon(GTK_WINDOW(fen->Wind), icon);
+
+        // Libère la mémoire associée à l'objet GdkPixbuf
+        g_object_unref(icon);
+    
+    }
+    
+    fen->Icon_Type = is_theme;
+
+    fen->Icon = g_strdup(new_icon);
+}
+
+void Fenetre_Set_Title(Fenetre *fen, const gchar *new_title)
+{
+    // Vérifie si le pointeur vers la structure Fenetre est NULL
+    if (!fen || !new_title)
+    {
+        // Affiche un message d'avertissement dans la console si la structure est invalide
+        printf("update_fenetre_title: Paramètres invalides.");
+        exit(-1);  // quitte immédiatement car il n'y a rien à modifier
+    }
+
+    // Met à jour le titre affiché dans la fenêtre GTK
+
+    gtk_window_set_title(GTK_WINDOW(fen->Wind), new_title); 
+    
+    fen->Title = g_strdup(new_title);
+
+}
+
+
+Fenetre *New_Fenetre(
+                    gchar *Id
+                    ,GtkWindowType  Type = Normal
+                    ,const gchar *Title = Title_
+                    ,const gchar *Icon = Icon_ 
+                    ,gboolean Icon_Type = Icon_Type_
+                    ,gint PositionParDefaut = Pos_Centre
+                    ,gchar *ColorBg = ColorBg_
+                    ,gchar *BackGround = BackGround_
+                    ,gboolean Resizable = Resizable_
+                    ,gboolean Headbar = HeadBar_ 
+                    ) 
+{
+    Fenetre *New_Wind = Cree_Fenetre();
+
+    if(!New_Wind)
+    {
+        printf("Erreur D\'allocation Memoire Pour La Structure Fenetre.");
+        exit(0);
+    }
+
+    New_Wind->Wind =  gtk_window_new(Type);
+
+    if(!New_Wind->Wind)
+    {
+        printf("Erreur D\'allocation Memoire Pour Window .");
+        exit(0);
+    }
+
+    Fenetre_Set_Title(New_Wind,Title);
+
+    Fenetre_Set_Icon(New_Wind,Icon,Icon_Type);
+
+    Fenetre_Set_Type(New_Wind,Type);
+
+    Fenetre_Definir_Redimensionnable(New_Wind,Resizable);
+
+    Fenetre_Set_BackGround_Color(New_Wind,ColorBg);
+
+    Fenetre_Definir_Position_Connu(New_Wind,PositionParDefaut);
+
+    Fenetre_Set_BackGround_Image(New_Wind,BackGround);
+
+    Fenetre_Set_Decorate(New_Wind,Headbar);
+
+    gtk_window_set_default_size(GTK_WINDOW(New_Wind->Wind),1000,1000);
+
+    return (Fenetre *) New_Wind;
+
+}
+
+
+
 
 
