@@ -1,5 +1,3 @@
-#include <gtk/gtk.h>
-#include "Position.h"
 #include "C:\Users\LENOVO\Desktop\GTK\GTK\Les Sdds\HeaderBar.h"
 
                                                 /*
