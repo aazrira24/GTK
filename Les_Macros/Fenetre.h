@@ -370,7 +370,7 @@ void Fenetre_Set_Decorate(Fenetre *fen,gboolean Headbar)
 void Fenetre_Set_Icon(Fenetre *fen, const gchar *new_icon,gboolean is_theme)
 {
    
-    if (!fen || !new_icon) 
+    if (!fen) 
     {
         printf("set_fenetre_icon: Paramètres invalides.");
         exit(-1);
@@ -408,7 +408,7 @@ void Fenetre_Set_Icon(Fenetre *fen, const gchar *new_icon,gboolean is_theme)
 void Fenetre_Set_Title(Fenetre *fen, const gchar *new_title)
 {
     // Vérifie si le pointeur vers la structure Fenetre est NULL
-    if (!fen || !new_title)
+    if (!fen )
     {
         // Affiche un message d'avertissement dans la console si la structure est invalide
         printf("update_fenetre_title: Paramètres invalides.");
@@ -426,6 +426,7 @@ void Fenetre_Set_Title(Fenetre *fen, const gchar *new_title)
 
 Fenetre *New_Fenetre(
                     gchar *Id
+                    ,HeaderBar *Ptr_Bar
                     ,GtkWindowType  Type = Normal
                     ,const gchar *Title = Title_
                     ,const gchar *Icon = Icon_ 
@@ -469,7 +470,9 @@ Fenetre *New_Fenetre(
 
     Fenetre_Set_Decorate(New_Wind,Headbar);
 
-    gtk_window_set_default_size(GTK_WINDOW(New_Wind->Wind),1000,1000);
+    gtk_window_set_default_size(GTK_WINDOW(New_Wind->Wind),900,600);
+
+    if(Headbar) gtk_window_set_titlebar(GTK_WINDOW(New_Wind->Wind),Ptr_Bar->HeadBar);
 
     return (Fenetre *) New_Wind;
 
