@@ -5,23 +5,17 @@
                                                 */
 
 
-#define Entry_ 0
-#define IndiceActive_ 0                             /*   C a d Le Premier Option   */
-#define NbrOfElmentsDansComboBox_ 0
+#define _Entry 0
+#define _IndiceActive 0                             /*   C a d Le Premier Option   */
+#define _NbrOfElmentsDansComboBox 0
 
 
 typedef struct Op
-{                                                     /* 
-                                                          A Realiser **
-                                                      */
-    char *Title_Option[Max];
+{
+    char *Title_Option;                             /*   Le Max Des Caracters Est Max = 25   */
     short int PositionDansComboBox;
     struct Op *Svt;
 }Option;
-
-
-
-
 
 typedef struct 
 {
