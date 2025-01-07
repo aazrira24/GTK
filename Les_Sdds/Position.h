@@ -1,6 +1,13 @@
+#include <gtk/gtk.h>
+#include <stdbool.h>
+#include <string.h>
+#include <time.h>
                                         /*
                                             Structure Position Et Taille Pour Mettre En Position (Et La Taille) De Mon Objet  (Window Button Box ....)
                                         */
+
+#define Max 25
+#define Alloue(X)   malloc(sizeof(X))
 
 typedef struct 
 {
@@ -14,4 +21,7 @@ typedef struct
                                         Soit La Largeur 
                                     */
     int Y;
+    
 }Taille,Position;
+
+
