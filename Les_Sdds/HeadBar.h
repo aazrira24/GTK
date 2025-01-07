@@ -1,4 +1,4 @@
-#include <gtk/gtk.h>
+#include "C:\Users\LENOVO\Desktop\GTK\GTK\Les Sdds\Onglets.h"
 
                                                 /*
                                                     Structure De Donnes Head Bar
