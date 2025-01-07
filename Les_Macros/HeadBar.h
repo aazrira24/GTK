@@ -1,4 +1,4 @@
-#include "C:\Users\LENOVO\Desktop\GTK\GTK\Les Sdds\Fenetre.h"
+#include "C:\Users\LENOVO\Desktop\GTK\GTK\Les Macros\Onglets.h"
 
 
 /*
@@ -54,7 +54,7 @@ void Header_Set_Sous_Title(HeaderBar *Bar_Ptr,char *Sous_Title)
                         Rien
 */
 
-void Header_Set_Icon(HeaderBar *Bar_Ptr,char *Icon)
+void Header_Set_Icon(HeaderBar *Bar_Ptr,const char *Icon)
 {
     if(!Bar_Ptr)
     {
@@ -62,11 +62,15 @@ void Header_Set_Icon(HeaderBar *Bar_Ptr,char *Icon)
         exit(0);
     }
 
-    GtkWidget *Image = gtk_image_new_from_file(Icon);
+    if(Icon)
+    {
 
-    Bar_Ptr->Icon_Path = g_strdup(Icon);
+        GtkWidget *Image = gtk_image_new_from_file(Icon);
 
-    gtk_container_add(GTK_CONTAINER(Bar_Ptr->HeadBar),Image);
+        Bar_Ptr->Icon_Path = g_strdup(Icon);
+
+        gtk_container_add(GTK_CONTAINER(Bar_Ptr->HeadBar),Image);
+    }
 
 }
 
@@ -89,7 +93,7 @@ void Header_Set_Close_Button(HeaderBar *Bar_Ptr,gboolean Show_Button)
 
     Bar_Ptr->Show_Close_Button = TRUE;
 
-    gtk_header_bar_set_show_close_button(GTK_HEADER_BAR(Bar_Ptr->HeadBar), Show_Button);
+    gtk_header_bar_set_show_close_button(GTK_HEADER_BAR(Bar_Ptr->HeadBar), TRUE);
 }
 
 /*
@@ -103,7 +107,7 @@ void Header_Set_Close_Button(HeaderBar *Bar_Ptr,gboolean Show_Button)
 
 void Header_Bar_Set_Custum_Gouche(HeaderBar *Ptr_Hd,GtkWidget *PtrWidget)
 {
-    if(!Ptr_Hd || !PtrWidget)
+    if(!Ptr_Hd)
     {
         printf("\n Erruer Dans L\'Adressage.");
         exit(0);
@@ -111,7 +115,7 @@ void Header_Bar_Set_Custum_Gouche(HeaderBar *Ptr_Hd,GtkWidget *PtrWidget)
 
     Ptr_Hd->Custom_Gouche = PtrWidget;
 
-    gtk_header_bar_pack_start (GTK_HEADER_BAR(Ptr_Hd->HeadBar),PtrWidget);
+    if (PtrWidget) gtk_header_bar_pack_start (GTK_HEADER_BAR(Ptr_Hd->HeadBar),PtrWidget);
 }
 
 /*
@@ -125,7 +129,7 @@ void Header_Bar_Set_Custum_Gouche(HeaderBar *Ptr_Hd,GtkWidget *PtrWidget)
 
 void Header_Bar_Set_Custum_Droit(HeaderBar *Ptr_Hd,GtkWidget *PtrWidget)
 {
-    if(!Ptr_Hd || !PtrWidget)
+    if(!Ptr_Hd )
     {
         printf("\n Erruer Dans L\'Adressage.");
         exit(0);
@@ -133,7 +137,7 @@ void Header_Bar_Set_Custum_Droit(HeaderBar *Ptr_Hd,GtkWidget *PtrWidget)
 
     Ptr_Hd->Custom_Droit = PtrWidget;
 
-    gtk_header_bar_pack_end(GTK_HEADER_BAR(Ptr_Hd->HeadBar),PtrWidget);
+    if (PtrWidget)     gtk_header_bar_pack_end(GTK_HEADER_BAR(Ptr_Hd->HeadBar),PtrWidget);
 }
 
 /*
@@ -146,7 +150,7 @@ void Header_Bar_Set_Custum_Droit(HeaderBar *Ptr_Hd,GtkWidget *PtrWidget)
                         Rien
 */
 
-void HeadrBar_Set_Decoration_Lyout(HeaderBar *Ptr_Hd,char *Decoration)
+void HeadrBar_Set_Decoration_Lyout(HeaderBar *Ptr_Hd,const char *Decoration)
 {
     if( !Ptr_Hd )
     {
@@ -154,9 +158,12 @@ void HeadrBar_Set_Decoration_Lyout(HeaderBar *Ptr_Hd,char *Decoration)
         exit(0);
     }
 
-    Ptr_Hd->Decoration_Layout = g_strdup(Decoration);
+    if(Decoration)
+    {
+        Ptr_Hd->Decoration_Layout = g_strdup(Decoration);
 
-    gtk_header_bar_set_decoration_layout(GTK_HEADER_BAR(Ptr_Hd->HeadBar), Decoration);
+        gtk_header_bar_set_decoration_layout(GTK_HEADER_BAR(Ptr_Hd->HeadBar),Decoration);
+    }
 
 }
 
@@ -169,16 +176,9 @@ void HeadrBar_Set_Decoration_Lyout(HeaderBar *Ptr_Hd,char *Decoration)
                         Pointeur Sur HeadBar 
 */
 
-HeaderBar *Init_Headr_Bar(
-                            gchar *Id
-                            ,gchar *Title = Title_
-                            ,gchar *SubTitle = SubTitle_
-                            ,gboolean Show_Close_Btn = Close_Button_
-                            ,gchar *Icon_Path = Icon_Path_
-                            ,gchar *Decoration_Leyout = Decoration_Leyout_
-                            ,GtkWidget *Custum_Gouch = Custum_Gouche_
-                            ,GtkWidget *Custum_Droit = Custum_Droit_
-                        )
+
+
+HeaderBar *Init_Headr_Bar( char *Id )
 {
     HeaderBar *Nw_Header = (HeaderBar *) malloc(sizeof(HeaderBar));
 
@@ -198,20 +198,22 @@ HeaderBar *Init_Headr_Bar(
 
     Nw_Header->Id = g_strdup(Id);
     
-    Header_Set_Title(Nw_Header,Title);
+    Header_Set_Title(Nw_Header,Title_);
 
-    Header_Set_Sous_Title(Nw_Header,SubTitle);
+    Header_Set_Sous_Title(Nw_Header,SubTitle_);
 
-    Header_Set_Close_Button(Nw_Header,Show_Close_Btn);
+    Header_Set_Close_Button(Nw_Header,Close_Button_);
 
-    Header_Set_Icon(Nw_Header,Icon_Path);
+    Header_Set_Icon(Nw_Header,Icon_Path_);
 
-    HeadrBar_Set_Decoration_Lyout(Nw_Header,Decoration_Leyout);
+    HeadrBar_Set_Decoration_Lyout(Nw_Header,Decoration_Leyout_);
 
-    Header_Bar_Set_Custum_Gouche(Nw_Header,Custum_Gouch);
+    Header_Bar_Set_Custum_Gouche(Nw_Header,Custum_Gouche_);
 
-    Header_Bar_Set_Custum_Droit(Nw_Header,Custum_Droit);
+    Header_Bar_Set_Custum_Droit(Nw_Header,Custum_Droit_);
 
     return (HeaderBar *) Nw_Header;
-
 }
+
+
+
