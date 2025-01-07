@@ -1,4 +1,4 @@
-#include "C:\Users\LENOVO\Desktop\GTK\GTK\Les Macros\ComboBox.h"
+#include "C:\Users\LENOVO\Desktop\GTK\GTK\Les Macros\Calendrier.h"
 
 
 void Gtk_Button_New_Objet(Button *Ptr,bool Mnemonic)
@@ -32,17 +32,21 @@ char Gtk_Button_Mnemonic_Get_Charactere(Button *Ptr)
     }
     int Cntr = 0 ;
     char MneMo ;
-    while (Ptr->Label[Cntr] != '\0')
+    if(!Ptr->Label)
     {
-        if(Ptr->Label[Cntr]=='_') break;
-        Cntr += 1;
+        while (Ptr->Label[Cntr] != '\0')
+        {
+            if(Ptr->Label[Cntr]=='_') break;
+            Cntr += 1;
+        }
+        if(Ptr->Label[Cntr] == '\0')
+        {
+            printf("\n Macro : Gtk_Button_Mnemonic_Get_Charactere | Erruer De Trouver Le Carectere");
+            exit(0);
+        }
+    
+        Ptr->Mnemonic_Car = Ptr->Label[Cntr+1];
     }
-    if(Ptr->Label[Cntr] == '\0')
-    {
-        printf("\n Macro : Gtk_Button_Mnemonic_Get_Charactere | Erruer De Trouver Le Carectere");
-        exit(0);
-    }
-    Ptr->Mnemonic_Car = Ptr->Label[Cntr+1];
     return (char ) (Ptr->Mnemonic_Car);
 } 
 
@@ -107,22 +111,10 @@ void Gtk_Button_Set_Color(Button *Ptr,char *Color)
     gtk_button_set_relief(GTK_BUTTON(Ptr->Ptr_Button), GTK_RELIEF_NONE);
 }
 
-Button *Gtk_Button_New(char *Id,
-                       int _X,              /* 
-                                                Taille Pour L'image --> Si On a Pointeur Image != NULL --> On Applique La Taille Sinon No
-                                            */
-                       int _Y, 
-                       int X,                   /*
-                                                    X Y --> Pour La Position De Button Sur Sa Pere 
-                                                */
-                       int Y,
-                       bool Mnemonic = _Mnemonic,
-                       bool Always_Show_Image = _Always_Show_Image,
-                       char Mnemonic_Car = _Mnemonic_Car,
-                       char *Label = _Label,
-                       char *Image = _Image,
-                       char *Color = _Color
-                        )
+
+
+
+Button *Gtk_Button_New(char *Id)
 {
     Button *Ptr = (Button *) Alloue(Button);
     if(!Ptr)
@@ -131,19 +123,19 @@ Button *Gtk_Button_New(char *Id,
         exit(0);
     }
 
-    Gtk_Button_New_Objet(Ptr,Mnemonic);
+    Gtk_Button_New_Objet(Ptr,_Mnemonic);
 
-    Gtk_Button_Always_Show_Image_Or_Not(Ptr,Always_Show_Image);
-    if(Label)
-                Gtk_Button_Set_Label(Ptr,Label);
+    Gtk_Button_Always_Show_Image_Or_Not(Ptr,_Always_Show_Image);
+    if(_Label)
+                Gtk_Button_Set_Label(Ptr,_Label);
 
-    if(Mnemonic)
+    if(_Mnemonic)
                 Gtk_Button_Mnemonic_Get_Charactere(Ptr);
 
-    if(Image)
-                Gtk_Button_Set_Image(Ptr,Image,_X,_Y);
-    if(Color)
-                Gtk_Button_Set_Color(Ptr,Color);
+    if(_Image)
+                Gtk_Button_Set_Image(Ptr,_Image,30,30);
+    if(_Color)
+                Gtk_Button_Set_Color(Ptr,_Color);
     
     return (Button *) Ptr;
 }
