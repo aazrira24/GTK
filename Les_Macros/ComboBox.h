@@ -94,14 +94,9 @@ void Gtk_ComBoBox_Remove_All_Option(ComboBox *Ptr)
 }
 
 
-ComboBox *Gtk_New_ComboBox(
-                            gchar *Id
-                            ,const gboolean Entry 
-                            ,const gint IndiceActive
-                            ,const gint X
-                            ,const gint Y
-                            ,const gint NbrsElemntDansComboBox
-                            )
+
+
+ComboBox *Gtk_New_ComboBox( gchar *Id,gboolean Entry)
 {
     ComboBox *Ptr = (ComboBox *) Alloue(ComboBox);
     if(!Ptr)
@@ -112,19 +107,16 @@ ComboBox *Gtk_New_ComboBox(
 
     Gtk_ComboBox_New(Ptr,Entry);
 
-    Gtk_ComboBox_Set_Active(Ptr,IndiceActive);
+    Gtk_ComboBox_Set_Active(Ptr,_IndiceActive);
 
-    Ptr->Position_ComboBox.X = X;
-    Ptr->Position_ComboBox.Y = Y;
-
-    Ptr->NbrOfElmentsDansComboBox = NbrsElemntDansComboBox;
+    Ptr->NbrOfElmentsDansComboBox =  _NbrOfElmentsDansComboBox;
 
     return (ComboBox *) Ptr;
 }
 
 
 
-Option *Cree_Option_ComboBox(gchar *Title,const short int PositionDeOption)
+Option *Cree_Option_ComboBox( char *Title,const short int PositionDeOption)
 {
 
     Option *Ptr = (Option *) Alloue(Option);
@@ -135,12 +127,8 @@ Option *Cree_Option_ComboBox(gchar *Title,const short int PositionDeOption)
         exit(0);
     }    
 
-    int Cntr = 0;
-    for ( ; Cntr < Max ; Ptr->Title_Option[Cntr++] = '\0');
-
-    Cntr = 0;
-
-    for( ; Cntr < Max && Title[Cntr] != '\0' ; Ptr->Title_Option[Cntr] = Title[Cntr++]);
+    Ptr->Title_Option = (char *)Alloue(Max);
+    Ptr->Title_Option = strcpy(Ptr->Title_Option,Title);
 
     Ptr->PositionDansComboBox = PositionDeOption;
 
@@ -150,16 +138,10 @@ Option *Cree_Option_ComboBox(gchar *Title,const short int PositionDeOption)
 
 }
 
-Option *Inserer_Option_Dans_List(Option *Ptr_List,Option *New_Option)
+Option *Inserer_Option_Dans_List(Option *Ptr_List, char *Title,const int PositionDansComboBox)
 {
-
-                                /*
-                                    Inserer A La Fin
-                                */
-
-    if(!New_Option) return (Option *) Ptr_List;
-    if(!Ptr_List) return (Option *) Cree_Option_ComboBox(New_Option->Title_Option,New_Option->PositionDansComboBox);
-    Ptr_List ->Svt = Inserer_Option_Dans_List(Ptr_List->Svt,New_Option);
+    if(!Ptr_List) return (Option *) Cree_Option_ComboBox(Title,PositionDansComboBox);
+    Ptr_List ->Svt = Inserer_Option_Dans_List(Ptr_List->Svt,Title,PositionDansComboBox);
     return (Option *) Ptr_List;
 }
 
@@ -180,7 +162,11 @@ void Inserer_List_Option_Dans_ComboBox(ComboBox *Ptr_ComboBox,Option *Ptr_List)
     while (Ptr_List)
     {
         Gtk_ComboBox_Ajouter_Option(Ptr_ComboBox,Ptr_List->Title_Option);
+        Ptr_ComboBox->NbrOfElmentsDansComboBox++;
         Ptr_List = Ptr_List->Svt;
     }
 }
+
+
+
 
