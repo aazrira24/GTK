@@ -1,4 +1,4 @@
-#include "C:\Users\LENOVO\Desktop\GTK\GTK\Les Sdds\ComboBox.h"
+#include "C:\Users\LENOVO\Desktop\GTK\GTK\Les Sdds\Calendrier.h"
 
 
 
@@ -8,7 +8,7 @@
 */
 
 
-#define _Mnemonic 0
+#define _Mnemonic 1
 #define _Always_Show_Image 0
 #define _Mnemonic_Car ' '
 #define _Label  NULL
